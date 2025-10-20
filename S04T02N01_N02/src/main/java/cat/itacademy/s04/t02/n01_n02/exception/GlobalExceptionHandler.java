@@ -10,26 +10,37 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
-public class GlobalExceptionHandler {
-    // Maneja excepciones personalizadas como FruitaNotFoundException
+public class GlobalExceptionHandle {
+
     @ExceptionHandler(FruitNotFoundException.class)
     public ResponseEntity<Object> handleFruitNotFoundException(FruitNotFoundException ex) {
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("timestamp", LocalDateTime.now());
-        body.put("message", ex.getMessage()); // Mensaje definido al lanzar la excepción.
+        body.put("message", ex.getMessage());
 
-        return new ResponseEntity<>(body, HttpStatus.NOT_FOUND); // Retorna 404 Not Found.
+        return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
     }
 
-    // Manejo genérico para excepciones no previstas
+
+    @ExceptionHandler(InvalidDataException.class)
+        public ResponseEntity<Object> handleInvaidDataException(InvalidDataException ex) {
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("timestamp", LocalDateTime.now());
+        body.put("message", ex.getMessage());
+
+        return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
+
+        }
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleGeneralException(Exception ex) {
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("timestamp", LocalDateTime.now());
         body.put("message", "Ocurrió un error interno en la aplicación.");
-        body.put("details", ex.getMessage()); // Para depuración: detalles del error.
+        body.put("details", ex.getMessage());
 
-        return new ResponseEntity<>(body, HttpStatus.INTERNAL_SERVER_ERROR); // Retorna 500 Internal Server Error.
+        return new ResponseEntity<>(body, HttpStatus.INTERNAL_SERVER_ERROR);
     }
     
 }
