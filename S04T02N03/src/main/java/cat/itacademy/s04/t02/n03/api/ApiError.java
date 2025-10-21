@@ -1,4 +1,4 @@
-package cat.itacademy.s04.t02.n01_n02.api;
+package cat.itacademy.s04.t02.n03.api;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 

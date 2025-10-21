@@ -1,22 +1,26 @@
 package cat.itacademy.s04.t02.n03.model;
 
-import org.springframework.data.mongodb.core.mapping.Document;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 
 import jakarta.persistence.Id;
 
-@Document(collection = "fruites")
+@Entity
 public class Fruita {
     @Id
-    private String id; 
-    private String name;
-    private int quantityKg;
-    
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
-    public String getId() {
+    private String name;
+
+    private int quantityKg;
+
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

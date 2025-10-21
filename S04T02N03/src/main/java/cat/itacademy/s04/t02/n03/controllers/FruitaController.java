@@ -1,13 +1,14 @@
 package cat.itacademy.s04.t02.n03.controllers;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import cat.itacademy.s04.t02.n03.exception.FruitNotFoundException;
+import cat.itacademy.s04.t02.n03.repository.FruitRepository;
 import cat.itacademy.s04.t02.n03.model.Fruita;
 import cat.itacademy.s04.t02.n03.services.FruitaService;
 
-import java.util.Optional;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,35 +24,40 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 public class FruitaController {
 
-     @Autowired
+    @Autowired
     private FruitaService fruitaService;
 
-     @PostMapping("/add")
-    public Fruita addFruit (@RequestBody Fruita fruit){
-        return fruitaService.addFruit(fruit);
+    @Autowired
+    private FruitRepository fruitRepository;
+
+    @PostMapping("/add")
+    public ResponseEntity<Fruita> addFruit (@RequestBody Fruita fruit) {
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(fruitaService.addFruit(fruit));
     }
-    
-    @PutMapping("/update")
-    public Optional<Fruita> updateFruita(@RequestBody Fruita fruitaDetails) {
-    return fruitaService.updateFruit(fruitaDetails.getId(), fruitaDetails);
-  }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<Fruita> updateFruita(@RequestBody Fruita fruitDetails, @PathVariable int id) {
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(fruitaService.update(id, fruitDetails));
+    }
 
     @DeleteMapping("/delete/{id}")
-    public void deleteFruit(@PathVariable String id) {
-   if (!fruitaService.deleteFruit(id)) {
-        throw new FruitNotFoundException("Fruita amb ID " + id + " no trobada");
-    }
+    public ResponseEntity<Fruita> deleteFruit(@PathVariable int id) {
+        fruitaService.deleteFruit(id);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/getOne/{id}")
-    public Optional<Fruita> getFruitById (@PathVariable String id){
-        return fruitaService.getFruitById(id);
+    public ResponseEntity<?> getFruitById (@PathVariable int id){
+        Fruita fruita = fruitaService.getById(id);
+        return ResponseEntity.ok(fruita);
     }
 
     @GetMapping("/getAll")
-    public Iterable<Fruita> getAllFruits (){
-        return fruitaService.getAllFruits();
+    public ResponseEntity<List<Fruita>> getAllFruits (){
+        return ResponseEntity.ok(fruitaService.getAll());
     }
-    
-    
 }

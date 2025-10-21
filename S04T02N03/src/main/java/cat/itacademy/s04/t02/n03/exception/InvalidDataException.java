@@ -1,4 +1,4 @@
-package cat.itacademy.s04.t02.n01_n02.exception;
+package cat.itacademy.s04.t02.n03.exception;
 
 public class InvalidDataException extends RuntimeException {
     private final String code;

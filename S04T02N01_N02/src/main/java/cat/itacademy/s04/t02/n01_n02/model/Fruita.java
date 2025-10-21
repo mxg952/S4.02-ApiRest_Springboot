@@ -1,18 +1,20 @@
 package cat.itacademy.s04.t02.n01_n02.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 
 @Entity
 public class Fruita {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id; 
+    private int id;
+
     private String name;
+
     private int quantityKg;
-    
 
     public int getId() {
         return id;
